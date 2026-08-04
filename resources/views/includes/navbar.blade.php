@@ -8,7 +8,7 @@
                     
 
           @if (Auth::check()) {
-            <p>{{ Auth::check() }}</p>
+            <p>{{ Auth::user() }}</p>
           } else {
             <p>Nincs bejelentezve</p>
           }

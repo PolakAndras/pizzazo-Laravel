@@ -32,7 +32,7 @@ function login(Request $request) {
         return redirect()->back()->with('error', 'Sikertelen belépés! ');
     } 
     else {
-         //dd($loginresult, Auth::check(), Auth::user());;
+         dd($loginresult, Auth::check(), Auth::user());;
             return redirect()->route('index')->with('success', 'Sikeres belépés!');
     }
 }
