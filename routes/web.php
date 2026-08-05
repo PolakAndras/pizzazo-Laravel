@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\UserController;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,5 +25,5 @@ Route::get('/register', [GuestController::class, 'view'])->name('register');
 Route::post('/register', [GuestController::class, 'register'])->name('register-post');
 
 
-Route::post('/login', [GuestController::class, 'login'])->name('login-post');
+Route::post('/login/', [GuestController::class, 'login'])->name('login-post');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout-post');

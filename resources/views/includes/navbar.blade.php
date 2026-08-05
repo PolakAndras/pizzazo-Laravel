@@ -3,24 +3,26 @@
         <span class="text-white ms-2">HU / EN</span>
 
         <div class="d-flex">
-                        @dump(Auth::check())
-                        @dump(Auth::user())
+          
                     
 
-          @if (Auth::check()) {
-            <p>{{ Auth::user() }}</p>
-          } else {
-            <p>Nincs bejelentezve</p>
-          }
-          @endif
+            @auth
           
-          <form action="{{ route('logout-post') }}" method="POST" class="d-flex gap-1">
+          //profil
+          <form action="" method="POST" class="d-flex gap-1">
             @csrf
-            <button type="submit" class="btn btn-dark">Kilépés</button>
+            <button type="submit" class="btn btn-light">{{Auth::user()->name}}</button>
           </form>
 
           
+          //kilépés
+          <form action="{{ route('logout-post') }}" method="POST" class="d-flex gap-1 me-2">
+            @csrf
+            <button type="submit" class="btn btn-dark">Kilépés</button>
+          </form>
           
+          @else
+
             <form action="{{ route('login-post') }}" method="POST" class="d-flex gap-1">
             @csrf
             <input type="email" class="form-control" name="email" placeholder="Email">
@@ -34,9 +36,10 @@
             >Regisztráció</a>
           </button>  
         </div>
+                @endauth
     </div>
 </nav>
-            
+      
 
      {{-- Aktivvá jelölés --}}
 {{-- {{ Route::currentRouteName() == 'register' ? 'active' : '' }}" --}}

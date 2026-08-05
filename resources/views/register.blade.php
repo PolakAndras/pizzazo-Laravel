@@ -20,7 +20,7 @@
             @endif
     
     <div class="container">
-        <form action="{{ route('register.post') }}" method="POST">
+        <form action="{{ route('register-post') }}" method="POST">
             @csrf
             <h3 class="text-center my-5">Regisztráció</h3>
 

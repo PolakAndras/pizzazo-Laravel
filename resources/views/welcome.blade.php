@@ -16,16 +16,6 @@
     {{-- Navbar --}}
     @include('includes.navbar')
 
-      @if (Auth::check()) {
-            <h1>Van bejelentkezve</h1>
-          } else {
-            <h1>Nincs bejelentezve</h1>
-          }
-          @endif
-          
-
-
-
     {{-- Logo --}}
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
@@ -37,11 +27,6 @@
     </div>
     {{-- Logo vége --}}
 
-    @if (Auth::check())
-    <h1>Van bejelentkezve</h1>
-@else
-    <h1>Nincs bejelentkezve</h1>
-@endif
 
     {{-- Termékek felsorolása sor --}}
 
