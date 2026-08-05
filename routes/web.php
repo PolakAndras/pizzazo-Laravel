@@ -20,10 +20,16 @@ Route::get('/', function () {
     return view('welcome');
 })->name('index');
 
-
+//regisztráció
 Route::get('/register', [GuestController::class, 'view'])->name('register');
 Route::post('/register', [GuestController::class, 'register'])->name('register-post');
 
-
-Route::post('/login/', [GuestController::class, 'login'])->name('login-post');
+//login és logout
+Route::post('/login/', [UserController::class, 'login'])->name('login-post');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout-post');
+
+// profil dolgok
+Route::get('/profile', [UserController::class, 'profileView'])->name('profile');
+
+Route::get('/profile/adataim', [UserController::class, 'profileDetails'])->name('profile-details');
+Route::post('/profile/adataim', [UserController::class, 'profileDetailsChange'])->name('profile-details-post');

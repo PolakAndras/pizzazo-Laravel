@@ -13,3 +13,4 @@
             b.2. Vaidáció egy php fájlba helyezése: config/validation.php  
             b.3 rules() {return ['name' => Config::get('validation.name'),]}
 6. login oldal létrehozása / vagy a navbarban belépés (ha külön oldalon van akkor kell egy get ág, ha nem akkor csak post ág kell)
+7. Profil módosítása oldal létrehozása és az ottani validáció elkészítése   

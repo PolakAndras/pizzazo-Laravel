@@ -9,16 +9,16 @@
             @auth
           
           //profil
-          <form action="" method="POST" class="d-flex gap-1">
-            @csrf
-            <button type="submit" class="btn btn-light">{{Auth::user()->name}}</button>
-          </form>
+        
+          
+            <a href="{{ route('profile') }}"><button class="btn btn-light">{{Auth::user()->name}}</button></a>
+         
 
           
           //kilépés
           <form action="{{ route('logout-post') }}" method="POST" class="d-flex gap-1 me-2">
             @csrf
-            <button type="submit" class="btn btn-dark">Kilépés</button>
+            <button type="submit" class="btn btn-dark">Kijelentkezés</button>
           </form>
           
           @else
@@ -57,7 +57,7 @@
           <a class="nav-link active" aria-current="page" href="{{route('index')}}">Rendelés</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="">Profilom</a>
+          <a class="nav-link" href="{{ route('profile') }}">Korábbi rendeléseim</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="">Kosár</a>
@@ -66,7 +66,9 @@
         </div>
 
         <div class="col text-center">
-             <h1 class="text-center h4">Pajtesz pizza</h1>
+            <h1 class="text-center h4">
+                {{ Route::currentRouteName() == 'profile' ? 'Pajtesz pizza profilom' : 'Pajtesz pizza' }}
+            </h1>
         </div>
   
       
