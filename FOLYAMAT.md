@@ -21,8 +21,9 @@ User
  - kész
 
 A termékek
-1. A termékek és azokhoz tartozó adatbázisok
+8. A termékek és azokhoz tartozó adatbázisok
 
+ 
     -Termékek DB / Categories
         -id
         -name 
@@ -94,8 +95,27 @@ A termékek
             - image
             - description
 
+9. Frontend, a products tábla elkészítése
+10. Linkként összekötés a termékekkel
 
-2. Rendelések és Kosár
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+KÉSŐBB. Rendelések és Kosár
 
     - Orders
         - id

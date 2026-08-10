@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\GuestController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Models\Category;
+use App\Models\Product;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +20,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+
+    $products = Product::get();
+    $categories = Category::get(); 
+
+    return view('welcome', compact('products', 'categories' ));
 })->name('index');
 
 //regisztráció
@@ -33,3 +40,7 @@ Route::get('/profile', [UserController::class, 'profileView'])->name('profile');
 
 Route::get('/profile/adataim', [UserController::class, 'profileDetails'])->name('profile-details');
 Route::post('/profile/adataim', [UserController::class, 'profileDetailsChange'])->name('profile-details-post');
+
+// termék oldala - > mindenki által látható 
+Route::get('/product/{id}', [ProductController::class, 'productView'])->name('product');
+

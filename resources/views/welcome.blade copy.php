@@ -34,9 +34,13 @@
         <div class="row">
             <div class="col py-3">
                 <ul class="d-flex justify-content-center list-unstyled m-0" style="gap: 50px;">
-                    @foreach ($categories as $category)
-                         <li><a href="" class="text-dark text-decoration-none fw-bold">{{$category->name}}</a></li>
-                    @endforeach
+                    <li><a href="" class="text-dark text-decoration-none fw-bold">Pizzák</a></li>
+                    <li><a href="" class="text-dark text-decoration-none fw-bold">Gyrosok</a></li>
+                    <li><a href="" class="text-dark text-decoration-none fw-bold">Hot-Dog</a></li>
+                    <li><a href="" class="text-dark text-decoration-none fw-bold">Saláta</a></li>
+                    <li><a href="" class="text-dark text-decoration-none fw-bold">Hamburger</a></li>
+                    <li><a href="" class="text-dark text-decoration-none fw-bold">Üdítő</a></li>
+                    <li><a href="" class="text-dark text-decoration-none fw-bold">Jégkrém</a></li>
                 </ul>
             </div>
         </div>
@@ -75,7 +79,7 @@
                          @foreach ($category->products as $product)
                         <!-- termék 1 -->
                         <div class="col-md-6">
-                            <a  href="{{route('product', ['id' => $product->id])}}" class="card text-reset text-decoration-none">
+                            <div class="card">
                                 <div class="card-body d-flex align-items-center p-2">
                                     <img src=""
                                         style="width:80px; height:80px; object-fit:cover;" class="rounded">
@@ -87,7 +91,7 @@
                                    
                                     </div>
                                 </div>
-                            </a>
+                            </div>
                         </div>
                           @endforeach
                     </div>
