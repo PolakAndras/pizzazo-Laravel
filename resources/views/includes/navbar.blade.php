@@ -66,7 +66,7 @@
         </div>
 
         <div class="col text-center">
-            <h1 class="text-center h4">
+            <h1 class="text-center h4 user-select-none">
                 {{ Route::currentRouteName() == 'profile' ? 'Pajtesz pizza profilom' : 'Pajtesz pizza' }}
             </h1>
         </div>

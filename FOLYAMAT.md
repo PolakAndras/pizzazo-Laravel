@@ -96,7 +96,9 @@ A termékek
             - description
 
 9. Frontend, a products tábla elkészítése
-10. Linkként összekötés a termékekkel
+10. Linkként összekötés a termékekkel :
+    TODO: Itt kell majd a ha a kosár elkészült belerakni egy formba az egészet, post-al elküldeni
+
 
 
 

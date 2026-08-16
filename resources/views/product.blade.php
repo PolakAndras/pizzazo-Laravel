@@ -35,8 +35,7 @@
     {{-- Termékek felsorolása sor vége --}}
 
 
-
-
+{{-- TODO: formba rakni hogy változzonn az ár  --}} 
     {{-- Termékek kártyák --}}
     <div class="container-fluid my-5" style="padding-left: 18rem; padding-right: 18rem;">
         <div class="row g-3">
@@ -48,7 +47,7 @@
                         <div class="d-flex justify-content-between">
                             {{-- TODO Itt majd az árat meg kell csinálni mutatorba mert így csak simán kivonom --}}
                             <h4>{{ $product->name }}</h4>
-                            <h4>{{ $product->price }} TODO: Mutator ár</h4>
+                            <h4>{{ $product->formatted_price }} </h4>
 
                         </div>
                         <i>{{ $product->description }}</i>
@@ -61,7 +60,7 @@
 
                                 @foreach (json_decode($product->options, true) as $jsonOptions => $options)
                                     @if ($jsonOptions === 'sizes')
-                                        @foreach ($options as $size => $price)
+                                        @foreach ($options as $size => $sizePrice)
                                             <input type="radio" class="btn-check" name="pizza_size"
                                                 id="size-{{ $size }}" value="{{ $size }}"
                                                 {{ $size === 'normal' ? 'checked' : '' }}>
@@ -71,20 +70,23 @@
                                                 @switch($size)
                                                     @case('kicsi')
                                                         Kicsi
+                                                        <hr> {{ formattedPrice($sizePrice) }}
                                                     @break
 
                                                     @case('normal')
                                                         Normál
+                                                        <hr> {{ formattedPrice($sizePrice) }}
                                                     @break
 
                                                     @case('csaladi')
                                                         Családi
+                                                        <hr> +{{ formattedPrice($sizePrice) }}
                                                     @break
 
                                                     @case('party')
                                                         Party
+                                                        <hr> +{{ formattedPrice($sizePrice) }}
                                                     @break
-
                                                 @endswitch
                                             </label>
                                         @endforeach
@@ -100,70 +102,36 @@
                         <small>Minimum: 0 - Maximum: 10 választható</small>
                         <hr>
                         {{-- Csempék --}}
+
                         <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-2">
-                            <!-- 1. Csempe-->
-                            <div class="col">
-                                <div class="border rounded p-2 bg-light">
-                                    <div class="d-flex justify-content-evenly align-items-center">
-                                        <label for="topping-1"
-                                            class="form-label fw-bold  cursor-pointer small">Sajt</label>
-                                        <small class="text-muted" style="font-size: 0.75rem;">+350 Ft</small>
-                                        <input type="checkbox" class="form-check-input position-static " id="topping-1"
-                                            style="cursor: pointer; width: 1.15rem; height: 1.15rem;">
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- 2. Csempe-->
-                            <div class="col">
-                                <div class="border rounded p-2 bg-light">
-                                    <div class="d-flex justify-content-evenly align-items-center">
-                                        <label for="topping-2"
-                                            class="form-label fw-bold  cursor-pointer small">Sonka</label>
-                                        <small class="text-muted" style="font-size: 0.75rem;">+400 Ft</small>
-                                        <input type="checkbox" class="form-check-input position-static" id="topping-2"
-                                            style="cursor: pointer; width: 1.15rem; height: 1.15rem;">
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- 3. Csempe-->
-                            <div class="col">
-                                <div class="border rounded p-2 bg-light">
-                                    <div class="d-flex justify-content-evenly align-items-center">
-                                        <label for="topping-3"
-                                            class="form-label fw-bold  cursor-pointer small">Gomba</label>
-                                        <small class="text-muted" style="font-size: 0.75rem;">+300 Ft</small>
-                                        <input type="checkbox" class="form-check-input position-static " id="topping-3"
-                                            style="cursor: pointer; width: 1.15rem; height: 1.15rem;">
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- 4. Csempe-->
-                            <div class="col">
-                                <div class="border rounded p-2 bg-light">
-                                    <div class="d-flex justify-content-evenly align-items-center">
-                                        <label for="topping-4"
-                                            class="form-label fw-bold  cursor-pointer small">Kukorica</label>
-                                        <small class="text-muted" style="font-size: 0.75rem;">+300 Ft</small>
-                                        <input type="checkbox" class="form-check-input position-static" id="topping-4"
-                                            style="cursor: pointer; width: 1.15rem; height: 1.15rem;">
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- 5. Csempe-->
-                            <div class="col">
-                                <div class="border rounded p-2 bg-light">
-                                    <div class="d-flex justify-content-evenly align-items-center">
-                                        <label for="topping-5"
-                                            class="form-label fw-bold  cursor-pointer small">Bacon</label>
-                                        <small class="text-muted" style="font-size: 0.75rem;">+450 Ft</small>
-                                        <input type="checkbox" class="form-check-input position-static " id="topping-5"
-                                            style="cursor: pointer; width: 1.15rem; height: 1.15rem;">
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- 6. Csempe: Szalámi -->
+
+                            @foreach (json_decode($product->options, true) as $jsonOptions => $extras)
+                                @if ($jsonOptions === 'extras')
+                                    @foreach ($extras as $extra => $extraPrice)
+                                        <div class="col">
+                                            <div class="border rounded p-2 bg-light">
+                                                <div class="d-flex justify-content-evenly align-items-center">
+                                                    <label for="topping-1"
+                                                        class="form-label fw-bold cursor-pointer small">
+                                                        {{ $extra }}
+                                                    </label>
+
+                                                    <small class="text-muted" style="font-size: 0.75rem;">
+                                                        {{ formattedPrice($extraPrice) }}
+                                                    </small>
+
+                                                    <input type="checkbox" class="form-check-input position-static"
+                                                        id="topping-1"
+                                                        style="cursor: pointer; width: 1.15rem; height: 1.15rem;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            @endforeach
 
                         </div>
+
                         {{-- csempék vége --}}
 
                         {{-- Megjegyzés --}}
@@ -177,14 +145,14 @@
                         <div class="d-flex justify-content-end gap-3 mb-4">
 
                             <div class="input-group" style="width: 130px;">
-                                <button type="button" class="btn btn-outline-secondary bg-warning">
+                                <button type="button" class="btn btn-outline-secondary bg-warning minus">
                                     <i class="fa-solid fa-minus"></i>
                                 </button>
 
-                                <input type="text" class="form-control text-center fw-semibold" value="1"
+                                <input type="text" class="form-control text-center fw-semibold jsQuantity" value="1"
                                     readonly>
 
-                                <button type="button" class="btn btn-outline-secondary bg-warning">
+                                <button type="button" class="btn btn-outline-secondary bg-warning plus">
                                     <i class="fa-solid fa-plus"></i>
                                 </button>
                             </div>
@@ -193,6 +161,7 @@
                                 <i class="fa-solid fa-cart-shopping"></i>
                                 Rendelés leadása
                                 <i class="fa-solid fa-arrow-right-long"></i>
+                            </button>
                         </div>
                         {{-- Mennyiség vége --}}
 
@@ -234,8 +203,27 @@
     @include('includes.footer')
 
 
-    <script src="https://jsdelivr.net" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous"></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
+    </script>
+    
+<script>
+    const minusButton = document.querySelector(".minus");
+    const plusButton = document.querySelector(".plus");
+    const quantityInput = document.querySelector(".jsQuantity");
+
+    plusButton.onclick = () => {
+        quantityInput.value++;
+    };
+
+    minusButton.onclick = () =>  {
+        if (quantityInput.value > 1) {
+            quantityInput.value--;
+        }
+    };
+</script>
+    
+
 </body>
 
 </html>

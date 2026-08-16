@@ -35,7 +35,7 @@
             <div class="col py-3">
                 <ul class="d-flex justify-content-center list-unstyled m-0" style="gap: 50px;">
                     @foreach ($categories as $category)
-                         <li><a href="" class="text-dark text-decoration-none fw-bold">{{$category->name}}</a></li>
+                         <li><a href="#{{$category->name}}" class="text-dark text-decoration-none fw-bold">{{$category->name}}</a></li>
                     @endforeach
                 </ul>
             </div>
@@ -68,7 +68,7 @@
             <div class="col-md-8">
                 @foreach ($categories as $category)
                 <div class="bg-white rounded p-3">
-                    <h5 class="text-center mb-3">{{ $category->name }}</h5>
+                    <h5 class="text-center mb-3" id={{$category->name}}>{{ $category->name }}</h5>
 
 
                     <div class="row g-3">
