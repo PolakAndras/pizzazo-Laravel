@@ -27,6 +27,10 @@
     </div>
     {{-- Logo vége --}}
 
+@dump(Session::get('cart'))
+
+<button class="btn btn-warning ms-4"><a href="{{route('delete-All-Cart')}}">Gyors kosár törlése gomb</a></button>
+
 
     {{-- Termékek felsorolása sor --}}
 
@@ -103,10 +107,22 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="py-2">Rendelésed</h2>
+                        <h2 class="text-center py-2">Kosarad</h2>
+                         @if (!Session::has('cart'))
                         <h5 class="text-center pt-3">
-                            A kosarad még üres
+                           A kosarad még üres <i class="fa-regular fa-face-frown"></i>
                         </h5>
+                        @else
+                        {{-- TODO A product mérete nem jó, valahogy be kell vinni a radiobuttonnal a sessionbe a kkiválasztottat mert csak parytt ir --}}
+                            @foreach (Session::get('cart') as $id =>$item)
+                            <div class="d-flex justify-content-between">
+                                <p>{{$item['product_name']}} </p>
+                                <p>{{$item['subtotal']}} Ft <a href=""><i class="fa-solid fa-trash"></i></a></p>
+                            </div>
+  
+
+                            @endforeach
+                        @endif  
                         <hr class="py-1" />
                         <p>Szállítási díj:</p>
                         <h5 class="pb-4">Végösszeg: </h5>

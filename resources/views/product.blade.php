@@ -51,6 +51,8 @@
                             {{-- data-price a js-hez --}}
                             <h4 class="totalPrice" data-price="{{ $product->price }}">{{ $product->formatted_price }}</h4>
                             <input type="hidden" name="product_id" value="{{$product->id}}">
+                            <input type="hidden" name="product_name" value="{{$product->name}}">
+                            <input type="hidden" name="product_price" value="{{$product->price}}">
 
                         </div>
                         <i>{{ $product->description }}</i>
@@ -110,7 +112,8 @@
                         <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-2">
 
                             @if ($product->options !== null)
-
+                            {{-- options: {"sizes":{"kicsi":-400,"normal":0,"csaladi":1500,"party":2800},"extras":{"extra sajt":400,"kukorica":250,"gomba":250}} --}}
+                                                                                    {{-- jsonOptions = sizes/extras --}}
                                 @foreach (json_decode($product->options, true) as $jsonOptions => $extras)
                                     @if ($jsonOptions === 'extras')
                                         @foreach ($extras as $extra => $extraPrice)

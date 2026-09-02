@@ -47,4 +47,8 @@ Route::get('/product/{id}', [ProductController::class, 'productView'])->name('pr
 
 // Kosár
 Route::post('/cart/add', [CartController::class, 'add'])->name("cart-add");
+Route::get('/cart/deleteall', [CartController::class, 'deleteAllCart'])->name("delete-All-Cart"); // Ha hazsnálni akarom akkor postra rakni 
+
+
+
 
