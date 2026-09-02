@@ -35,19 +35,22 @@
     {{-- Termékek felsorolása sor vége --}}
 
 
-{{-- TODO: formba rakni hogy változzonn az ár  --}} 
+    {{-- TODO: formba rakni   --}}
     {{-- Termékek kártyák --}}
     <div class="container-fluid my-5" style="padding-left: 18rem; padding-right: 18rem;">
         <div class="row g-3">
 
             <!-- Termékek -->
-            <div class="col-md-8">
+            <form method="POST" action="{{route("cart-add")}}"  class="col-md-8">
+                @csrf
                 <div class="bg-white rounded p-3 ">
                     <div class="mx-3">
                         <div class="d-flex justify-content-between">
                             {{-- TODO Itt majd az árat meg kell csinálni mutatorba mert így csak simán kivonom --}}
                             <h4>{{ $product->name }}</h4>
-                            <h4>{{ $product->formatted_price }} </h4>
+                            {{-- data-price a js-hez --}}
+                            <h4 class="totalPrice" data-price="{{ $product->price }}">{{ $product->formatted_price }}</h4>
+                            <input type="hidden" name="product_id" value="{{$product->id}}">
 
                         </div>
                         <i>{{ $product->description }}</i>
@@ -61,8 +64,9 @@
                                 @foreach (json_decode($product->options, true) as $jsonOptions => $options)
                                     @if ($jsonOptions === 'sizes')
                                         @foreach ($options as $size => $sizePrice)
-                                            <input type="radio" class="btn-check" name="pizza_size"
-                                                id="size-{{ $size }}" value="{{ $size }}"
+                                            <input type="hidden" name="pizza_size" value="{{ $size }}">
+                                            <input type="radio" class="btn-check pizzaSize" name="pizza_size_price"
+                                                id="size-{{ $size }}" value="{{ $sizePrice }}"
                                                 {{ $size === 'normal' ? 'checked' : '' }}>
                                             {{-- TODO: Ezt valahogy kiváltani a  --}}
                                             <label class="btn btn-outline-warning text-dark fw-bold"
@@ -105,31 +109,35 @@
 
                         <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-2">
 
-                            @foreach (json_decode($product->options, true) as $jsonOptions => $extras)
-                                @if ($jsonOptions === 'extras')
-                                    @foreach ($extras as $extra => $extraPrice)
-                                        <div class="col">
-                                            <div class="border rounded p-2 bg-light">
-                                                <div class="d-flex justify-content-evenly align-items-center">
-                                                    <label for="topping-1"
-                                                        class="form-label fw-bold cursor-pointer small">
-                                                        {{ $extra }}
-                                                    </label>
+                            @if ($product->options !== null)
 
-                                                    <small class="text-muted" style="font-size: 0.75rem;">
-                                                        {{ formattedPrice($extraPrice) }}
-                                                    </small>
+                                @foreach (json_decode($product->options, true) as $jsonOptions => $extras)
+                                    @if ($jsonOptions === 'extras')
+                                        @foreach ($extras as $extra => $extraPrice)
+                                            <div class="col">
+                                                <div class="border rounded p-2 bg-light">
+                                                    <div class="d-flex justify-content-between align-items-center">
 
-                                                    <input type="checkbox" class="form-check-input position-static"
-                                                        id="topping-1"
-                                                        style="cursor: pointer; width: 1.15rem; height: 1.15rem;">
+                                                        <div>
+                                                            <div class="form-label fw-bold small mb-0">
+                                                                {{ $extra }}
+                                                            </div>
+
+                                                            <small class="text-muted">
+                                                                +{{ formattedPrice($extraPrice) }}
+                                                            </small>
+                                                        </div>
+                                                            {{-- Az extras tömbben lett egy asszociatív tömb $extras = ['Sonka' => 500,Sajt' => 400,];--}} 
+                                                        <input type="checkbox" name="extras[{{ $extra }}]" value="{{ $extraPrice }}" class="form-check-input position-static"
+                                                            style="cursor: pointer; width: 1.15rem; height: 1.15rem;">
+
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endforeach
-                                @endif
-                            @endforeach
-
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                            @endif
                         </div>
 
                         {{-- csempék vége --}}
@@ -137,7 +145,7 @@
                         {{-- Megjegyzés --}}
                         <label for="note"
                             class="form-label fw-bold cursor-pointer small text-secondary mt-3">Megjegyzés</label>
-                        <input class="form-control form-control-lg mb-3" id="note" type="text"
+                        <input class="form-control form-control-lg mb-3" id="note" type="text" name="note"
                             aria-label="note">
                         {{-- Megjegyzés vége --}}
 
@@ -149,17 +157,17 @@
                                     <i class="fa-solid fa-minus"></i>
                                 </button>
 
-                                <input type="text" class="form-control text-center fw-semibold jsQuantity" value="1"
-                                    readonly>
+                                <input type="text" name ="quantity" min="1" max="99" class="form-control text-center fw-semibold jsQuantity"
+                                    value="1" readonly>
 
                                 <button type="button" class="btn btn-outline-secondary bg-warning plus">
                                     <i class="fa-solid fa-plus"></i>
                                 </button>
                             </div>
 
-                            <button class="btn btn-warning " type="button">
+                            <button class="btn btn-warning " type="submit">
                                 <i class="fa-solid fa-cart-shopping"></i>
-                                Rendelés leadása
+                                Kosárba
                                 <i class="fa-solid fa-arrow-right-long"></i>
                             </button>
                         </div>
@@ -173,7 +181,7 @@
                     <div class="row g-3">
                     </div>
                 </div>
-            </div>
+            </form>
             {{-- Termékek vége  --}}
 
             <!-- Kosár -->
@@ -203,26 +211,45 @@
     @include('includes.footer')
 
 
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
     </script>
-    
-<script>
-    const minusButton = document.querySelector(".minus");
-    const plusButton = document.querySelector(".plus");
-    const quantityInput = document.querySelector(".jsQuantity");
 
-    plusButton.onclick = () => {
-        quantityInput.value++;
-    };
+    <script>
+        const minusButton = document.querySelector(".minus");
+        const plusButton = document.querySelector(".plus");
+        const quantityInput = document.querySelector(".jsQuantity");
+        const pizzaSizeButtons = document.querySelectorAll(".pizzaSize");
+        const totalPrice = document.querySelector(".totalPrice");
 
-    minusButton.onclick = () =>  {
-        if (quantityInput.value > 1) {
-            quantityInput.value--;
-        }
-    };
-</script>
-    
+
+        plusButton.onclick = () => {
+            quantityInput.value++;
+        };
+
+        minusButton.onclick = () => {
+            if (quantityInput.value > 1) {
+                quantityInput.value--;
+            }
+        };
+
+
+        pizzaSizeButtons.forEach(sizeBtn => {
+            sizeBtn.addEventListener('change', () => {
+
+                //console.log(Number(sizeBtn.value) + Number(totalPrice.dataset.price))
+
+                const productPriceWithSize = Number(sizeBtn.value) + Number(totalPrice.dataset.price)
+                console.log(productPriceWithSize)
+
+                // AI adta formázás
+                totalPrice.innerHTML = productPriceWithSize.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
+                    " ") + " Ft";
+
+            });
+        });
+    </script>
+
 
 </body>
 

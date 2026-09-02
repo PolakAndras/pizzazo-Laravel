@@ -99,9 +99,15 @@ A termékek
 10. Linkként összekötés a termékekkel :
     TODO: Itt kell majd a ha a kosár elkészült belerakni egy formba az egészet, post-al elküldeni
 
+11. Kosár elkészítése:
+    Szükség van: a) - egy cart controllerre : php artisan make:controller CartController
+                 b) -  egy web.php-s post route-ra : Route::post('/cart/add', [CartController::class, 'add'])->name("cart.add");
+                 c) A bladeben a form-ban elküldeni ami erre a route-ra mutat:  action={{ route("cart.add") }}  
 
-
-
+A kosárban amit átadok a bladeből: product_id   -> ebből keresem vissza a terméket
+                                 : quantity -> ez ugye csak a product oldalon megadható, kell
+                                 : size -> ez ugye csak a product oldalon megadható, kell
+                                 : extrak -> ez ugye csak a product oldalon megadható, kell
 
 
 
@@ -136,8 +142,4 @@ KÉSŐBB. Rendelések és Kosár
         - products_subtotal
 
 
-    - categories? -> ez kell?
-    	- id
-        - name
-    A kategóriáknál ugye felmerül a szülő és gyermek kategória is. Ezért szükség lenne egy parent_id-re is, amit most nem viszünk bele a bonyolultsága okán. 
-    A kategóriák relációja hasMany, hiszen a kategóriának vannak termékei.
+

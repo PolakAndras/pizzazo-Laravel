@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -43,4 +44,7 @@ Route::post('/profile/adataim', [UserController::class, 'profileDetailsChange'])
 
 // termék oldala - > mindenki által látható 
 Route::get('/product/{id}', [ProductController::class, 'productView'])->name('product');
+
+// Kosár
+Route::post('/cart/add', [CartController::class, 'add'])->name("cart-add");
 
