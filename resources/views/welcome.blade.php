@@ -113,7 +113,6 @@
                            A kosarad még üres <i class="fa-regular fa-face-frown"></i>
                         </h5>
                         @else
-                        {{-- TODO A product mérete nem jó, valahogy be kell vinni a radiobuttonnal a sessionbe a kkiválasztottat mert csak parytt ir --}}
                             @foreach (Session::get('cart') as $id =>$item)
                             <div class="d-flex justify-content-between">
                                 <p>{{$item['product_name']}} | A méret</p>
