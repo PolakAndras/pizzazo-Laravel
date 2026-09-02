@@ -116,7 +116,7 @@
                         {{-- TODO A product mérete nem jó, valahogy be kell vinni a radiobuttonnal a sessionbe a kkiválasztottat mert csak parytt ir --}}
                             @foreach (Session::get('cart') as $id =>$item)
                             <div class="d-flex justify-content-between">
-                                <p>{{$item['product_name']}} </p>
+                                <p>{{$item['product_name']}} | A méret</p>
                                 <p>{{$item['subtotal']}} Ft <a href=""><i class="fa-solid fa-trash"></i></a></p>
                             </div>
   
