@@ -11,40 +11,32 @@
         integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-
 <body style="background-color:#E6DCC0">
-    {{-- Navbar --}}
     @include('includes.navbar')
+    @include('includes.logo')
 
-    {{-- Logo --}}
-    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="/pictures/logo2.jpg" class="d-block w-100"
-                    style="height: 500px; object-fit: cover; object-position: center 75%;" alt="Háttérkép">
-            </div>
-        </div>
-    </div>
-    {{-- Logo vége --}}
+
 
 @dump(Session::get('cart'))
 
-<button class="btn btn-warning ms-4"><a href="{{route('delete-All-Cart')}}">Gyors kosár törlése gomb</a></button>
+<button class="btn btn-warning ms-4 d-none d-md-block"><a href="{{route('delete-All-Cart')}}">Gyors kosár törlése gomb</a></button>
+
 
 
     {{-- Termékek felsorolása sor --}}
 
     <div class="container-fluid bg-white">
-        <div class="row">
-            <div class="col py-3">
-                <ul class="d-flex justify-content-center list-unstyled m-0" style="gap: 50px;">
-                    @foreach ($categories as $category)
-                         <li><a href="#{{$category->name}}" class="text-dark text-decoration-none fw-bold">{{$category->name}}</a></li>
-                    @endforeach
-                </ul>
-            </div>
+    <div class="row">
+        <div class="col py-3">
+            <!-- JAVÍTVA: flex-column mobilon egymás alá teszi, flex-lg-row PC-n egymás mellé. A text-center középre igazítja mobilon is -->
+            <ul class="d-flex flex-column flex-lg-row justify-content-center align-items-center list-unstyled m-0 text-center gap-3 gap-lg-5">
+                @foreach ($categories as $category)
+                     <li><a href="#{{$category->name}}" class="text-dark text-decoration-none fw-bold">{{$category->name}}</a></li>
+                @endforeach
+            </ul>
         </div>
     </div>
+</div>
 
     {{-- Termékek felsorolása sor vége --}}
 
@@ -65,83 +57,64 @@
 
 
     {{-- Termékek kártyák --}}
-    <div class="container-fluid my-5" style="padding-left: 18rem; padding-right: 18rem;">
-        <div class="row g-3">
+    <!-- Külső fő konténer géphez és mobilhoz -->
+    <div class="container-fluid my-5">
+        <!-- Egy extra sor és oszlopok segítségével tartjuk meg a 18rem-es margót kizárólag nagyképernyőn (lg) -->
+        <div class="row">
+            <div class="col-12 style-holder" style="display: contents;">
+                <!-- Beágyazott stílus-szimuláció tiszta BS osztályokkal: PC-n (xl) megmarad a 18rem padding, alatta (px-3) eltűnik -->
+                <div class="w-100 px-3 px-xl-5" style="max-width: 100%;">
+                    <!-- Hogy a 18rem pontosan meglegyen PC-n, egy belső wrapperbe tettem, ami csak nagy képernyőn kap paddingot inline helyett -->
+                    <div style="padding-left: 0; padding-right: 0;" class="ps-xl-5 pe-xl-5">
+                        <div class="mx-xl-5">
+                            
+                            <div class="row g-3">
+                                <!-- Termékek -->
+                                <div class="col-md-8">
+                                    @foreach ($categories as $category)
+                                    <div class="bg-white rounded p-3 mb-3">
+                                        <h5 class="text-center mb-3" id={{$category->name}}>{{ $category->name }}</h5>
 
-            <!-- Termékek -->
-            <div class="col-md-8">
-                @foreach ($categories as $category)
-                <div class="bg-white rounded p-3">
-                    <h5 class="text-center mb-3" id={{$category->name}}>{{ $category->name }}</h5>
-
-
-                    <div class="row g-3">
-                         @foreach ($category->products as $product)
-                        <!-- termék 1 -->
-                        <div class="col-md-6">
-                            <a  href="{{route('product', ['id' => $product->id])}}" class="card text-reset text-decoration-none">
-                                <div class="card-body d-flex align-items-center p-2">
-                                    <img src=""
-                                        style="width:80px; height:80px; object-fit:cover;" class="rounded">
-                                    <div class="ms-3">
-                                        
-                                        <h6 class="mb-1">{{ $product->name }}</h6>
-                                        <p class="mb-1">{{ $product->description }}</p>
-                                        <p class="mb-0">{{ $product->price }}</p>
-                                   
+                                        <div class="row g-3">
+                                             @foreach ($category->products as $product)
+                                            <!-- termék 1 -->
+                                            <div class="col-md-6">
+                                                <a  href="{{route('product', ['id' => $product->id])}}" class="card text-reset text-decoration-none">
+                                                    <div class="card-body d-flex align-items-center p-2">
+                                                        <img src=""
+                                                            style="width:80px; height:80px; object-fit:cover;" class="rounded">
+                                                        <div class="ms-3">
+                                                            
+                                                            <h6 class="mb-1">{{ $product->name }}</h6>
+                                                            <p class="mb-1">{{ $product->description }}</p>
+                                                            <p class="mb-0">{{ $product->price }}</p>
+                                                       
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                              @endforeach
+                                        </div>
                                     </div>
+                                    @endforeach
                                 </div>
-                            </a>
-                        </div>
-                          @endforeach
-                    </div>
-                </div>
-                @endforeach
-            </div>
 
-
-                      
-                            {{-- Termékek vége  --}}
-
-            <!-- Kosár -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="text-center py-2">Kosarad</h2>
-                         @if (!Session::has('cart'))
-                        <h5 class="text-center pt-3">
-                           A kosarad még üres <i class="fa-regular fa-face-frown"></i>
-                        </h5>
-                        @else
-                            @foreach (Session::get('cart') as $id =>$item)
-                            <div class="d-flex justify-content-between">
-                                <p>{{$item['product_name']}} | A méret</p>
-                                <p>{{$item['subtotal']}} Ft <a href=""><i class="fa-solid fa-trash"></i></a></p>
+                                {{-- Termékek vége  --}}
+                                @include('includes.cart')
                             </div>
-  
 
-                            @endforeach
-                        @endif  
-                        <hr class="py-1" />
-                        <p>Szállítási díj:</p>
-                        <h5 class="pb-4">Végösszeg: </h5>
-
-                        <button class="btn btn-warning w-100" type="button">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            Rendelés leadása
-                            <i class="fa-solid fa-arrow-right-long"></i>
-                        </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-                {{-- Kosár vége --}}
-                {{-- Termékek kártyák vége --}}
+    {{-- Termékek kártyák vége --}}
+    
     @include('includes.footer')
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    <script src="https://jsdelivr.net"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
     </script>
 </body>

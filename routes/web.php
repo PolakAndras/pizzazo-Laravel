@@ -4,10 +4,13 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DbController;
+use App\Http\Controllers\CheckoutController;
 use App\Models\Category;
 use App\Models\Product;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -48,7 +51,12 @@ Route::get('/product/{id}', [ProductController::class, 'productView'])->name('pr
 // Kosár
 Route::post('/cart/add', [CartController::class, 'add'])->name("cart-add");
 Route::get('/cart/deleteall', [CartController::class, 'deleteAllCart'])->name("delete-All-Cart"); // Ha hazsnálni akarom akkor postra rakni 
+Route::get('/cart/deletItem/{id}', [CartController::class, 'deleteItem'])->name("delete-Item"); // Ha hazsnálni akarom akkor postra rakni 
+
+//Db page
+Route::get('/dbs', [DbController::class, 'view'])->name('db-view');
 
 
-
+Route::get('/checkout', [CheckoutController::class, 'view'])->name('checkout-view');
+Route::post('/checkout/add', [CheckoutController::class, 'add'])->name('checkout-post');
 

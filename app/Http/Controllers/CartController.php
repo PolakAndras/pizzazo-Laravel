@@ -21,17 +21,25 @@ class CartController extends Controller
             $extrastotal  += $extraPrice;
         }
 
+        // Ketté veszem az explode alapon
+
+        
+        $pizzaSizedata = explode('_', $request->pizza_size);
+        $pizzaSize = $pizzaSizedata[0];
+        $extraSizePrice = $pizzaSizedata[1] ?? 0; // A normálnak nincs értéke az midnig 0, ezért kell
+
+
 
         $productData = [
-            'product_id' => $request->product_id,
+           'product_id' => $request->product_id,
             'product_name' => $request->product_name,
-
+            'pizza_size' => $pizzaSize,
             'product_price' => $request->product_price,
-            'extra_size_price' => $request->pizza_size_price,  // Ez null lesz ha nincs ilyenje
+            'extra_size_price' => $extraSizePrice,
             'extras' => $request->extras, //Ez egy tömb 
             'note' => $request->note,
             'quantity' => $request->quantity,
-            'subtotal' => ($request->product_price +  $request->pizza_size_price + $extrastotal  ) * $request->quantity,
+            'subtotal' => ($request->product_price +  $extraSizePrice + $extrastotal  ) * $request->quantity,
         ];
 
         //dd($productData);
@@ -44,6 +52,14 @@ class CartController extends Controller
     //Minden kosár elem törlése
     function deleteAllCart(Request $request) {
         $request->session()->forget('cart');
+        $request->session()->forget('datas');
+        $request->session()->forget('shippingPrice');
+        return redirect()->back();
+    }
+
+    //1 elem törlése
+    function deleteItem($id, Request $request) {
+        $request->session()->forget('cart.'.$id);
         return redirect()->back();
     }
 }

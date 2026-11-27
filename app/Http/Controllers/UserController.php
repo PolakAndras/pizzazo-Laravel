@@ -18,7 +18,7 @@ function login(Request $request) {
     } 
     else {
          //dd($loginresult, Auth::check(), Auth::user());;
-            return redirect()->route('index')->with('success', 'Sikeres belépés!');
+            return redirect()->back()->with('success', 'Sikeres belépés!');
     }
 }
 //logout

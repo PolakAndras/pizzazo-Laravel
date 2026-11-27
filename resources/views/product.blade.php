@@ -13,31 +13,11 @@
 </head>
 
 <body style="background-color:#E6DCC0">
-    {{-- Navbar --}}
+
     @include('includes.navbar')
+    @include('includes.logo')
 
-    {{-- Logo --}}
-    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="/pictures/logo2.jpg" class="d-block w-100"
-                    style="height: 500px; object-fit: cover; object-position: center 75%;" alt="Háttérkép">
-            </div>
-        </div>
-    </div>
-    {{-- Logo vége --}}
-
-
-    {{-- Termékek felsorolása sor --}}
-
-
-
-    {{-- Termékek felsorolása sor vége --}}
-
-
-    {{-- TODO: formba rakni   --}}
-    {{-- Termékek kártyák --}}
-    <div class="container-fluid my-5" style="padding-left: 18rem; padding-right: 18rem;">
+    <div class="container-lg my-5" >
         <div class="row g-3">
 
             <!-- Termékek -->
@@ -66,9 +46,9 @@
                                 @foreach (json_decode($product->options, true) as $jsonOptions => $options)
                                     @if ($jsonOptions === 'sizes')
                                         @foreach ($options as $size => $sizePrice)
-                                            <input type="hidden" name="pizza_size" value="{{ $size }}">
-                                            <input type="radio" class="btn-check pizzaSize" name="pizza_size_price"
-                                                id="size-{{ $size }}" value="{{ $sizePrice }}"
+                                            
+                                            <input type="radio" class="btn-check pizzaSize" name="pizza_size"
+                                                id="size-{{ $size }}" value="{{ $size }}_{{ $sizePrice }}"
                                                 {{ $size === 'normal' ? 'checked' : '' }}>
                                             {{-- TODO: Ezt valahogy kiváltani a  --}}
                                             <label class="btn btn-outline-warning text-dark fw-bold"
@@ -176,10 +156,6 @@
                         </div>
                         {{-- Mennyiség vége --}}
 
-
-
-
-
                     </div>
                     <div class="row g-3">
                     </div>
@@ -188,28 +164,7 @@
             {{-- Termékek vége  --}}
 
             <!-- Kosár -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="py-2">Rendelésed</h2>
-                        <h5 class="text-center pt-3">
-                            A kosarad még üres
-                        </h5>
-                        <hr class="py-1" />
-                        <p>Szállítási díj:</p>
-                        <h5 class="pb-4">Végösszeg: </h5>
-
-                        <button class="btn btn-warning w-100" type="button">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            Rendelés leadása
-                            <i class="fa-solid fa-arrow-right-long"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {{-- Kosár vége --}}
+            @include('includes.cart')
     {{-- Termékek kártyák vége --}}
     @include('includes.footer')
 
@@ -242,8 +197,12 @@
 
                 //console.log(Number(sizeBtn.value) + Number(totalPrice.dataset.price))
 
-                const productPriceWithSize = Number(sizeBtn.value) + Number(totalPrice.dataset.price)
-                console.log(productPriceWithSize)
+                const selectedPrice = sizeBtn.value.split('_')[1];
+                //console.log(sizeBtn.value.split('_')[1]);
+                //console.log(selectedPrice);
+
+                const productPriceWithSize = Number(selectedPrice) + Number(totalPrice.dataset.price)
+                //console.log(productPriceWithSize)
 
                 // AI adta formázás
                 totalPrice.innerHTML = productPriceWithSize.toString().replace(/\B(?=(\d{3})+(?!\d))/g,

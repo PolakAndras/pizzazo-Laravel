@@ -15,7 +15,9 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('category_id');
+            // Idegen kulcs a categories.id-ra: csak létező kategória adható meg,
+            // és kategória törlésekor a hozzá tartozó termékek is törlődnek
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             
             $table->string('name');
             $table->integer('price'); // Alapár
