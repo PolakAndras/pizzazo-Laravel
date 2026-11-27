@@ -27,7 +27,7 @@ $datas = $request->validate(
        'city' => Config::get('validation.city'),
        'street' => Config::get('validation.street'),
        'houseNumber' => Config::get('validation.houseNumber'),
-       'houseNumber' => Config::get('validation.zip'),
+       'zip' => Config::get('validation.zip'),
 
        // Nem kötelező
        'floor_door' => Config::get('validation.floor_door'),
