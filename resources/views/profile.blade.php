@@ -8,6 +8,7 @@
   </head>
   <body style="background-color:#E6DCC0">
     @include('includes.navbar')
+    @include('includes.logo')
 
 <div class="container my-5" style="max-width: 900px; ">
 

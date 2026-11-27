@@ -2,8 +2,8 @@
         <div class="container">
           <div class="row">
             <div class="col-md-4">
-              <h5 id="footerH5" class="text-start">Online rendelés</h5>
-              <ul class="list-unstyled text-start" id="footerUl">
+              <h5 id="footerH5" class="text-center text-md-start">Online rendelés</h5>
+              <ul class="list-unstyled text-center text-md-start " id="footerUl">
                 <li>Hétfő: 10:00-22:00</li>
                 <li>Kedd: 10:00-22:00</li>
                 <li>Szerda: 10:00-22:00</li>
